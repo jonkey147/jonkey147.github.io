@@ -1,7 +1,118 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profiles</title>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #000000;
+            --button-bg: #007bff;
+            --button-hover: #0056b3;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --button-bg: #333333;
+            --button-hover: #4d4d4d;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: var(--button-bg);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--button-hover);
+        }
+
+        .links-container {
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .profile-link {
+            display: block;
+            margin: 20px;
+            padding: 15px 30px;
+            text-decoration: none;
+            color: white;
+            background-color: var(--button-bg);
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .profile-link:hover {
+            background-color: var(--button-hover);
+        }
+
+        .counter {
+            margin-top: auto;
+            padding: 20px;
+        }
+    </style>
+</head>
 <body>
-<h1>Zdar 🍆</h1>
-<p>Ahoj jonký čau jonký nazdar jonký tak jo jonký</p>
+    <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+    
+    <div class="links-container">
+        <h1>My Profiles</h1>
+        <!-- Replace these links with your actual profiles -->
+        <a href="https://www.youtube.com/@jonkey147" class="profile-link" target="_blank">YouTube Channel</a>
+        <a href="https://steamcommunity.com/id/jonkey147/" class="profile-link" target="_blank">Steam Profile</a>
+    </div>
+
+    <div class="counter" id="viewCounter">Loading view count...</div>
+
+    <script>
+        // Theme toggle
+        function toggleTheme() {
+            const body = document.body;
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Set initial theme from localStorage
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.setAttribute('data-theme', 'dark');
+        }
+
+        // View counter
+        let viewCount = localStorage.getItem('viewCount');
+        if (!viewCount) {
+            viewCount = 0;
+        }
+        viewCount++;
+        localStorage.setItem('viewCount', viewCount);
+        document.getElementById('viewCounter').textContent = `Page Views: ${viewCount}`;
+    </script>
 </body>
 </html>
