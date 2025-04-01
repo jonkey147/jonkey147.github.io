@@ -78,16 +78,23 @@
             z-index: 100;
         }
 
-        #donut {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        #animated-text {
             font-family: monospace;
-            font-size: 10px;
-            line-height: 10px;
-            color: var(--text-color);
+            font-size: 24px;
             white-space: pre;
+            overflow: hidden;
+            border-right: 2px solid;
+            width: 0;
+            animation: typing 3s steps(10, end) forwards, blink 0.8s infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 10ch; }
+        }
+
+        @keyframes blink {
+            50% { border-color: transparent; }
         }
     </style>
 </head>
@@ -101,54 +108,10 @@
     </div>
 
     <div class="counter" id="viewCounter">Loading view count...</div>
-    <pre id="donut"></pre>
+    
+    <div id="animated-text">jonkey147</div>
 
     <script>
-        (function() {
-            let A = 0, B = 0;
-            const donut = document.getElementById('donut');
-            
-            function renderDonut() {
-                const b = Array(1760).fill(' ');
-                const z = Array(1760).fill(0);
-                const chars = ".,-~:;=!*#$@";
-                
-                for(let j=0; j < 6.28; j += 0.07) {
-                    for(let i=0; i < 6.28; i += 0.02) {
-                        const c = Math.sin(i);
-                        const d = Math.cos(j);
-                        const e = Math.sin(A);
-                        const f = Math.sin(j);
-                        const g = Math.cos(A);
-                        const h = d + 2;
-                        const D = 1 / (c * h * e + f * g + 5);
-                        const l = Math.cos(i);
-                        const m = Math.cos(B);
-                        const n = Math.sin(B);
-                        const t = c * h * g - f * e;
-                        
-                        const x = 40 + 30 * D * (l * h * m - t * n);
-                        const y = 12 + 15 * D * (l * h * n + t * m);
-                        const o = Math.floor(x) + 80 * Math.floor(y);
-                        const N = 8 * ((f * e - c * d * g) * m - c * d * e - f * g - l * d * n);
-                        
-                        if(y < 22 && y > 0 && x > 0 && x < 80 && D > z[o]) {
-                            z[o] = D;
-                            b[o] = chars[N > 0 ? N : 0];
-                        }
-                    }
-                }
-                
-                donut.textContent = b.join('').replace(/(.{80})/g, '$1\n');
-                A += 0.04;
-                B += 0.02;
-                requestAnimationFrame(renderDonut);
-            }
-            
-            renderDonut();
-        })();
-
-        // Theme toggle
         function toggleTheme() {
             const body = document.body;
             if(body.getAttribute('data-theme') === 'dark') {
@@ -160,7 +123,6 @@
             }
         }
 
-        // Set initial theme
         const savedTheme = localStorage.getItem('theme');
         if(savedTheme === 'dark') {
             document.body.setAttribute('data-theme', 'dark');
